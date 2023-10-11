@@ -1,5 +1,6 @@
 #!/bin/bash
 cd ./build
+cmake ..
 make
 for num in {1..30}
 do

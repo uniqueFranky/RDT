@@ -1,14 +1,32 @@
 #include "PacketWindow.h"
 #include "DataStructure.h"
+#include "MultiOutput.h"
+#include <cstdio>
+#include <fstream>
+#include <iostream>
 
 
-PacketWindow::PacketWindow(int size, int *_base, int *_nextSeqNum): windowSize(size), head(1), tail(0), base(_base), nextSeqNum(_nextSeqNum), empty(true) {
+PacketWindow::PacketWindow(int size, int *_base, int *_nextSeqNum, const std::string &path): windowSize(size), head(1), tail(0), base(_base), nextSeqNum(_nextSeqNum), empty(true) {
     window = new PacketWithAck[size];
+    multiOutput = MultiOutput();
+
+    outputFile = new std::ofstream(path);
+    if(!outputFile->is_open()) {
+        std::cerr << path << "not opened" << std::endl;
+        exit(-1);
+    }
+    multiOutput.addStream(outputFile);
+    multiOutput.addStream(&std::cout);
+
 }
 
 PacketWindow::~PacketWindow() {
     if(nullptr != window) {
         delete []window;
+    }
+    if(nullptr != outputFile) {
+        outputFile->close();
+        delete outputFile;
     }
 }
 
@@ -38,6 +56,11 @@ bool PacketWindow::addPacket(Packet packet) {
     tail = (tail + 1) % windowSize;
     window[tail] = PacketWithAck(packet, false);
     empty = false;
+
+    multiOutput.print("Added on packet into packet window: ");
+    multiOutput.printPacket(window[tail].packet);
+    printPacketWindow();
+
     return true;
 }
 
@@ -46,10 +69,16 @@ bool PacketWindow::popPacket() {
         return false;
     }
 
+    multiOutput.print("Poped one packet from packet window: ");
+    multiOutput.printPacket(window[head].packet);
+
     head = (head + 1) % windowSize;
     if((tail + 1) % windowSize == head) {
         empty = true;
     }
+
+    printPacketWindow();
+
     return true;
 }
 
@@ -77,4 +106,28 @@ bool PacketWindow::isFull() const {
     } else {
         return !empty && tail + windowSize - head + 1 == windowSize;
     }
+}
+
+void PacketWindow::printPacketWindow() {
+    multiOutput.print("");
+    multiOutput.print("");
+    multiOutput.print("=========PacketWindowBegins=========");
+    multiOutput.print("Now packets in the window are: ");
+    if(!isEmpty()) {
+        int now = head;
+        int last;
+        char msg[100];
+        do {
+            sprintf(msg, "idx = %d", now);
+            multiOutput.print(msg);
+            multiOutput.printPacket(window[now].packet);
+            last = now;
+            now = (now + 1) % windowSize;
+            multiOutput.print("");
+        } while(last != tail);
+    }
+    multiOutput.print("=========PacketWindowEnds==========");
+    multiOutput.print("");
+    multiOutput.print("");
+
 }

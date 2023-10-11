@@ -1,6 +1,8 @@
 #ifndef DATA_STRUCTURE_H
 #define DATA_STRUCTURE_H
 
+#include <string>
+
 struct  Configuration{
 
 	/**
@@ -16,6 +18,8 @@ struct  Configuration{
 	static const int MAX_SEQ_NUM = 8;
 	
 	static const int WINDOW_SIZE = 4;
+
+	static const std::string LOG_PATH;
 
 };
 
