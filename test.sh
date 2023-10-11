@@ -5,7 +5,7 @@ for num in {1..30}
 do
     echo "${num}-th test begins"
 
-    ../bin/stop_wait
+    ../bin/main
 
     if ! diff ~/rdt/input.txt ~/rdt/output.txt &> /dev/null
     then
