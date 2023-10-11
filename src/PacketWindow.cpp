@@ -58,7 +58,7 @@ bool PacketWindow::addPacket(Packet packet) {
     empty = false;
 
     multiOutput.print("Added on packet into packet window: ");
-    multiOutput.printPacket(window[tail].packet);
+    multiOutput.printPacket(window[tail]);
     printPacketWindow();
 
     return true;
@@ -70,8 +70,8 @@ bool PacketWindow::popPacket() {
     }
 
     multiOutput.print("Poped one packet from packet window: ");
-    multiOutput.printPacket(window[head].packet);
-
+    multiOutput.printPacket(window[head]);
+    (*base) = ((*base) + 1) % Configuration::MAX_SEQ_NUM;
     head = (head + 1) % windowSize;
     if((tail + 1) % windowSize == head) {
         empty = true;
@@ -120,7 +120,7 @@ void PacketWindow::printPacketWindow() {
         do {
             sprintf(msg, "idx = %d", now);
             multiOutput.print(msg);
-            multiOutput.printPacket(window[now].packet);
+            multiOutput.printPacket(window[now]);
             last = now;
             now = (now + 1) % windowSize;
             multiOutput.print("");

@@ -7,14 +7,16 @@
 #include "Global.h"
 #include "RdtSender.h"
 #include "RdtReceiver.h"
+#include "SRRdtReceiver.h"
+#include "SRRdtSender.h"
 #include "StopWaitRdtSender.h"
 #include "StopWaitRdtReceiver.h"
 
 
 int main(int argc, char* argv[])
 {
-	RdtSender *ps = new GBNRdtSender();
-	RdtReceiver * pr = new GBNRdtReceiver();
+	RdtSender *ps = new SRRdtSender();
+	RdtReceiver * pr = new SRRdtReceiver();
 	// pns->setRunMode(0);  //VERBOS模式
 	pns->setRunMode(1);  //安静模式
 	pns->init();

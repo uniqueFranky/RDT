@@ -1,4 +1,5 @@
 #!/bin/bash
+rm ./bin/main
 cd ./build
 cmake ..
 make

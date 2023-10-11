@@ -35,7 +35,7 @@ void GBNRdtSender::receive(const Packet &packet) {
     int checkSum = pUtils->calculateCheckSum(packet);
     pUtils->printPacket("发送方收到确认报文,开始计算checksum ", packet);
     if(packet.checksum == checkSum) {
-        vector<int> acked = packetWindow.setAcked(packet.acknum); // 累计确认
+        vector<Packet> acked = packetWindow.setAcked(packet.acknum); // 累计确认
         pUtils->printPacket("发送方收到确认报文，checksum正确 ", packet);
         if(acked.size() > 0) { // 不是冗余确认
             pns->stopTimer(SENDER, 0);
@@ -47,7 +47,7 @@ void GBNRdtSender::receive(const Packet &packet) {
 }
 
 void GBNRdtSender::timeoutHandler(int seqNum) {
-    vector<Packet> packets = packetWindow.getGBNPackets(); // 获取需要重传的packet
+    vector<Packet> packets = packetWindow.getResendPackets(); // 获取需要重传的packet
     pUtils->printPacket("响应超时, go back n ", Packet());
     pns->stopTimer(SENDER, 0);
     pns->startTimer(SENDER, Configuration::TIME_OUT, 0);

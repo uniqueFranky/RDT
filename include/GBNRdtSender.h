@@ -17,10 +17,10 @@ public:
     };
     ~GBNRdtSender() = default;
 
-    bool getWaitingState();
-	bool send(const Message &message);
-	void receive(const Packet &ackPkt);	
-	void timeoutHandler(int seqNum);			
+    bool getWaitingState() override;
+	bool send(const Message &message) override;
+	void receive(const Packet &ackPkt) override;	
+	void timeoutHandler(int seqNum) override;			
 
 
 };

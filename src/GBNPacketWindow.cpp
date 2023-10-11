@@ -2,15 +2,15 @@
 #include "DataStructure.h"
 #include <vector>
 
-std::vector<int> GBNPacketWindow::setAcked(int seqNum) {
-    std::vector<int> ret;
+std::vector<Packet> GBNPacketWindow::setAcked(int seqNum) {
+    std::vector<Packet> ret;
 
     if(inWindow(seqNum)) { // 当确认的seqNum在滑动窗口中时才是有效确认
         int lastSeqNum;
         do {
             window[head].ack = true;
             lastSeqNum = window[head].packet.seqnum;
-            ret.push_back(lastSeqNum);
+            ret.push_back(window[head].packet);
             popPacket();
         } while(lastSeqNum != seqNum);
 
@@ -18,7 +18,7 @@ std::vector<int> GBNPacketWindow::setAcked(int seqNum) {
     return std::move(ret);
 }
 
-std::vector<Packet> GBNPacketWindow::getGBNPackets() {
+std::vector<Packet> GBNPacketWindow::getResendPackets() {
     std::vector<Packet> ret;
     if(!isEmpty()) {
         int now = head;

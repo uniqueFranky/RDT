@@ -15,7 +15,8 @@ public:
     virtual ~MultiOutput() = default;
     void addStream(std::ostream *stream);
     void print(const std::string &msg);
-    void printPacket(const Packet &packet);
+    void print(const std::string &msg, int val);
+    void printPacket(const PacketWithAck &packet);
 };
 
 #endif

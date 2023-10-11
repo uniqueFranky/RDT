@@ -6,11 +6,14 @@
 
 class GBNPacketWindow: public PacketWindow {
 
+private:
+
 public:
-    GBNPacketWindow(int size, int *_base, int *_nextSeqNum): PacketWindow(size, _base, _nextSeqNum, Configuration::LOG_PATH){};
+    GBNPacketWindow(int size, int *_base, int *_nextSeqNum): PacketWindow(size, _base, _nextSeqNum, Configuration::SENDER_LOG_PATH){};
     ~GBNPacketWindow() = default;
-    std::vector<int> setAcked(int seqNum); // 累计确认
-    std::vector<Packet> getGBNPackets(); // 获取所有未确认的packet
+    std::vector<Packet> getResendPackets() override; // 获取所有未确认的packet
+    std::vector<Packet> setAcked(int seqNum) override; // 累计确认
+
 };
 
 #endif

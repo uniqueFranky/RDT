@@ -19,7 +19,8 @@ struct  Configuration{
 	
 	static const int WINDOW_SIZE = 4;
 
-	static const std::string LOG_PATH;
+	static const std::string SENDER_LOG_PATH;
+	static const std::string RECEIVER_LOG_PATH;
 
 };
 
@@ -57,7 +58,13 @@ struct  Packet {
 	virtual void print();
 };
 
+struct PacketWithAck { // 每个packet都被加上一个是否被确认的标签
+    Packet packet;
+    bool ack; // 对于Sender来说，是收到了Receiver的确认；对于Receiver来说，是成功收到了该Packet
 
+    PacketWithAck(const Packet &p, bool a): packet(p), ack(a) {};
+    PacketWithAck(){};
+};
 
 #endif
 
