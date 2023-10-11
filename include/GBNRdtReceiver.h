@@ -4,10 +4,10 @@
 #include "RdtReceiver.h"
 class GBNRdtReceiver: public RdtReceiver {
 private:
-    int expectSeqNum;
+    int expectSeqNum; // 期望接受的seqNum
 
 public:
-    GBNRdtReceiver(): expectSeqNum(0) {};
+    GBNRdtReceiver(): expectSeqNum(1) {};
     ~GBNRdtReceiver() = default;
     void receive(const Packet &packet) override;
 };

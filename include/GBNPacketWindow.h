@@ -9,8 +9,8 @@ class GBNPacketWindow: public PacketWindow {
 public:
     GBNPacketWindow(int size, int *_base, int *_nextSeqNum): PacketWindow(size, _base, _nextSeqNum){};
     ~GBNPacketWindow() = default;
-    std::vector<int> setAcked(int seqNum);
-    std::vector<Packet> getGBNPackets();
+    std::vector<int> setAcked(int seqNum); // 累计确认
+    std::vector<Packet> getGBNPackets(); // 获取所有未确认的packet
 };
 
 #endif

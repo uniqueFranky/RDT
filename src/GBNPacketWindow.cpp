@@ -5,18 +5,15 @@
 std::vector<int> GBNPacketWindow::setAcked(int seqNum) {
     std::vector<int> ret;
 
-    if(inWindow(seqNum)) {
+    if(inWindow(seqNum)) { // 当确认的seqNum在滑动窗口中时才是有效确认
         int lastSeqNum;
         do {
             window[head].ack = true;
             lastSeqNum = window[head].packet.seqnum;
             ret.push_back(lastSeqNum);
-            head = (head + 1) % windowSize;
+            popPacket();
         } while(lastSeqNum != seqNum);
 
-        if((tail + 1) % windowSize == head) {
-            empty = true;
-        }
     }
     return std::move(ret);
 }
