@@ -2,6 +2,8 @@
 //
 
 
+#include "GBNRdtReceiver.h"
+#include "GBNRdtSender.h"
 #include "Global.h"
 #include "RdtSender.h"
 #include "RdtReceiver.h"
@@ -11,15 +13,16 @@
 
 int main(int argc, char* argv[])
 {
-	RdtSender *ps = new StopWaitRdtSender();
-	RdtReceiver * pr = new StopWaitRdtReceiver();
-	pns->setRunMode(0);  //VERBOS模式
-//	pns->setRunMode(1);  //安静模式
+	RdtSender *ps = new GBNRdtSender();
+	RdtReceiver * pr = new GBNRdtReceiver();
+	// pns->setRunMode(0);  //VERBOS模式
+	pns->setRunMode(1);  //安静模式
 	pns->init();
 	pns->setRtdSender(ps);
 	pns->setRtdReceiver(pr);
-	pns->setInputFile("/home/guxiwu/cpp/rdt/input.txt");
-	pns->setOutputFile("/home/guxiwu/cpp/rdt/output.txt");
+	pns->setInputFile("/home/ubuntu/rdt/input.txt");
+	pns->setOutputFile("/home/ubuntu/rdt/output.txt");
+
 
 	pns->start();
 

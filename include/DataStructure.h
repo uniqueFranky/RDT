@@ -13,6 +13,10 @@ struct  Configuration{
 	*/
 	static const int TIME_OUT =20;
 
+	static const int MAX_SEQ_NUM = 8;
+	
+	static const int WINDOW_SIZE = 4;
+
 };
 
 
