@@ -2,7 +2,6 @@
 #define PACKET_WINDOW_H
 
 #include "DataStructure.h"
-#include "MultiOutput.h"
 #include <fstream>
 #include <vector>
 
@@ -18,8 +17,6 @@ protected:
     bool empty; // 是否为空：当tail + 1 == head 时，队列既有可能是满的，又有可能是空的。
     PacketWithAck *window; // 窗口
 
-    MultiOutput multiOutput;
-    std::ofstream *outputFile;
 
     int getWindowIndex(int seqNum) const; // 根据seqNum获取对应packet在window中的下标
     virtual void printPacketWindow();

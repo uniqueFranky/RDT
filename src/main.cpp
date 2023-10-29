@@ -15,8 +15,10 @@
 
 int main(int argc, char* argv[])
 {
+	freopen("/home/ubuntu/rdt/RDT/log.txt", "w", stdout);
 	RdtSender *ps = new SRRdtSender();
 	RdtReceiver * pr = new SRRdtReceiver();
+
 	// pns->setRunMode(0);  //VERBOS模式
 	pns->setRunMode(1);  //安静模式
 	pns->init();
@@ -24,7 +26,6 @@ int main(int argc, char* argv[])
 	pns->setRtdReceiver(pr);
 	pns->setInputFile("/home/ubuntu/rdt/input.txt");
 	pns->setOutputFile("/home/ubuntu/rdt/output.txt");
-
 
 	pns->start();
 

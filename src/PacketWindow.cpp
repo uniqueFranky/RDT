@@ -1,32 +1,20 @@
 #include "PacketWindow.h"
 #include "DataStructure.h"
-#include "MultiOutput.h"
+#include "Global.h"
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 
 
 PacketWindow::PacketWindow(int size, int *_base, int *_nextSeqNum, const std::string &path): windowSize(size), head(1), tail(0), base(_base), nextSeqNum(_nextSeqNum), empty(true) {
     window = new PacketWithAck[size];
-    multiOutput = MultiOutput();
-
-    outputFile = new std::ofstream(path);
-    if(!outputFile->is_open()) {
-        std::cerr << path << "not opened" << std::endl;
-        exit(-1);
-    }
-    multiOutput.addStream(outputFile);
-    multiOutput.addStream(&std::cout);
 
 }
 
 PacketWindow::~PacketWindow() {
     if(nullptr != window) {
         delete []window;
-    }
-    if(nullptr != outputFile) {
-        outputFile->close();
-        delete outputFile;
     }
 }
 
@@ -57,8 +45,7 @@ bool PacketWindow::addPacket(Packet packet) {
     window[tail] = PacketWithAck(packet, false);
     empty = false;
 
-    multiOutput.print("Added on packet into packet window: ");
-    multiOutput.printPacket(window[tail]);
+    pUtils->printPacket("add one packet to window: ", packet);
     printPacketWindow();
 
     return true;
@@ -69,8 +56,7 @@ bool PacketWindow::popPacket() {
         return false;
     }
 
-    multiOutput.print("Poped one packet from packet window: ");
-    multiOutput.printPacket(window[head]);
+    pUtils->printPacket("pop one packet from window: ", window[head].packet);
     (*base) = ((*base) + 1) % Configuration::MAX_SEQ_NUM;
     head = (head + 1) % windowSize;
     if((tail + 1) % windowSize == head) {
@@ -109,25 +95,18 @@ bool PacketWindow::isFull() const {
 }
 
 void PacketWindow::printPacketWindow() {
-    multiOutput.print("");
-    multiOutput.print("");
-    multiOutput.print("=========PacketWindowBegins=========");
-    multiOutput.print("Now packets in the window are: ");
+    std::cout << std::endl << std::endl << "==============packet window begin============" << std::endl;
     if(!isEmpty()) {
         int now = head;
         int last;
         char msg[100];
         do {
-            sprintf(msg, "idx = %d", now);
-            multiOutput.print(msg);
-            multiOutput.printPacket(window[now]);
+            sprintf(msg, "idx = %d: ", now);
+            pUtils->printPacket(msg, window[now].packet);
             last = now;
             now = (now + 1) % windowSize;
-            multiOutput.print("");
+            std::cout << std::endl;
         } while(last != tail);
     }
-    multiOutput.print("=========PacketWindowEnds==========");
-    multiOutput.print("");
-    multiOutput.print("");
-
+    std::cout << "==============packet window end============" << std::endl << std::endl;
 }

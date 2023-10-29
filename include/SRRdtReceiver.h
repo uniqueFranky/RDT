@@ -2,7 +2,6 @@
 #define SR_RDT_RECEIVER_H
 
 #include "DataStructure.h"
-#include "MultiOutput.h"
 #include "RdtReceiver.h"
 #include "SRReceiverPacketWindow.h"
 

@@ -1,5 +1,6 @@
 #include "SRReceiverPacketWindow.h"
 #include "DataStructure.h"
+#include "Global.h"
 #include <utility>
 #include <vector>
 #include <iostream>
@@ -36,23 +37,19 @@ std::vector<Packet> SRReceiverPacketWindow::setAcked(int seqNum) {
 }
 
 bool SRReceiverPacketWindow::popPacket() {
-    multiOutput.print("pop packet");
-    multiOutput.printPacket(window[head]);
+    pUtils->printPacket("pop one packet from window", window[head].packet);
     window[head].ack = false;
     window[head].packet.seqnum = -1;
     head = (head + 1) % windowSize;
     *base = ((*base) + 1) % Configuration::MAX_SEQ_NUM;
-    multiOutput.print("base = ", *base);
     return true;
 }
 
 bool SRReceiverPacketWindow::addPacket(Packet packet) {
     if(inWindow(packet.seqnum)) {
-        multiOutput.print("add packet");
         window[getWindowIndex(packet.seqnum)].packet = packet;
         window[getWindowIndex(packet.seqnum)].ack = true;
-        multiOutput.printPacket(window[getWindowIndex(packet.seqnum)]);
-        multiOutput.print("base = ", *base);
+        pUtils->printPacket("add one packet to packet window: ", window[getWindowIndex(packet.seqnum)].packet);
         printPacketWindow();
         return true;
     } else {
@@ -90,11 +87,11 @@ std::vector<Packet> SRReceiverPacketWindow::getResendPackets() {
 void SRReceiverPacketWindow::printPacketWindow() {
     int now = head;
     bool first = true;
-    multiOutput.print("=============start to print packet window==============");
+    std::cout << std::endl << std::endl << "==============receiver packet window begins============" << std::endl;
     while(window[now].packet.seqnum != -1 && (first || now != getPreviousWindowIndex(head))) {
         first = false;
-        multiOutput.printPacket(window[now]);
+        pUtils->printPacket("", window[now].packet);
         now = (now + 1) % windowSize;
     }
-    multiOutput.print("=================finish to print packet window===========");
+    std::cout << "==============receiver packet window ends============" << std::endl << std::endl;
 }

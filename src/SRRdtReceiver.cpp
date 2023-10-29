@@ -1,7 +1,6 @@
 #include "SRRdtReceiver.h"
 #include "DataStructure.h"
 #include "Global.h"
-#include "MultiOutput.h"
 #include "RandomEventEnum.h"
 #include <cstring>
 #include <type_traits>

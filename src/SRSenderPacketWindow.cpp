@@ -5,12 +5,10 @@
 
 std::vector<Packet> SRSenderPacketWindow::moveWindow() {
     std::vector<Packet> ret;
-    multiOutput.print("========================start to move window=======================");
     while(!isEmpty() && window[head].ack) {
         ret.push_back(window[head].packet);
         popPacket();
     }
-    multiOutput.print("========================finish moving window=======================");
     return std::move(ret);
 }
 

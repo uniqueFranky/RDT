@@ -3,3 +3,4 @@ bin/
 .cache/
 sender.txt
 receiver.txt
+log.txt
