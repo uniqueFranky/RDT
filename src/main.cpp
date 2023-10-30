@@ -18,8 +18,8 @@
 int main(int argc, char* argv[])
 {
 	freopen("/home/ubuntu/rdt/RDT/log.txt", "w", stdout);
-	RdtSender *ps = new SRRdtSender();
-	RdtReceiver * pr = new SRRdtReceiver();
+	RdtSender *ps = new TCPSender();
+	RdtReceiver * pr = new TCPReceiver();
 
 	// pns->setRunMode(0);  //VERBOS模式
 	pns->setRunMode(1);  //安静模式
