@@ -11,6 +11,8 @@
 #include "SRRdtSender.h"
 #include "StopWaitRdtSender.h"
 #include "StopWaitRdtReceiver.h"
+#include "TCPSender.h"
+#include "TCPReceiver.h"
 
 
 int main(int argc, char* argv[])

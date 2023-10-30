@@ -101,11 +101,10 @@ void PacketWindow::printPacketWindow() {
         int last;
         char msg[100];
         do {
-            sprintf(msg, "idx = %d: ", now);
+            sprintf(msg, "idx = %d, ack = %d", now, window[now].ack);
             pUtils->printPacket(msg, window[now].packet);
             last = now;
             now = (now + 1) % windowSize;
-            std::cout << std::endl;
         } while(last != tail);
     }
     std::cout << "==============packet window end============" << std::endl << std::endl;

@@ -86,10 +86,9 @@ std::vector<Packet> SRReceiverPacketWindow::getResendPackets() {
 
 void SRReceiverPacketWindow::printPacketWindow() {
     int now = head;
-    bool first = true;
     std::cout << std::endl << std::endl << "==============receiver packet window begins============" << std::endl;
-    while(window[now].packet.seqnum != -1 && (first || now != getPreviousWindowIndex(head))) {
-        first = false;
+    int tms = windowSize;
+    while(tms--) {
         pUtils->printPacket("", window[now].packet);
         now = (now + 1) % windowSize;
     }

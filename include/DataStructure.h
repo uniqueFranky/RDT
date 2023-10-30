@@ -63,7 +63,7 @@ struct PacketWithAck { // 每个packet都被加上一个是否被确认的标签
     bool ack; // 对于Sender来说，是收到了Receiver的确认；对于Receiver来说，是成功收到了该Packet
 
     PacketWithAck(const Packet &p, bool a): packet(p), ack(a) {};
-    PacketWithAck(){};
+    PacketWithAck(): ack(0){};
 };
 
 #endif

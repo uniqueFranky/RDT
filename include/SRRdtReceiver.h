@@ -7,7 +7,7 @@
 
 
 class SRRdtReceiver: public RdtReceiver {
-private:
+protected:
     int base;
     int nextSeqNum;
     SRReceiverPacketWindow packetWindow;
@@ -16,7 +16,7 @@ public:
     SRRdtReceiver(): base(1), nextSeqNum(-1), packetWindow(Configuration::WINDOW_SIZE, &base) {
 
     };
-    void receive(const Packet &packet) override;
+    virtual void receive(const Packet &packet) override;
 };
 
 #endif
